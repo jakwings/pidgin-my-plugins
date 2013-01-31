@@ -8,6 +8,8 @@ Most of them are Perl-script plugins ;)
 
     Pidgin will reply to your buddies automatically when you are "away". The number of times is limited. And it has a delay between checking the received messages, so it won't reply to every comming messages.
 
+--------------------
+
 # 我做的Pidgin插件
 
 大部分都是Perl脚本形式的插件 ;)
