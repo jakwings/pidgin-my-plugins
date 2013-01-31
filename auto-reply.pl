@@ -54,9 +54,9 @@ sub plugin_load
     Purple::Debug::info($PLUGIN_INFO{name}, "loaded\n");
 
     ## Conversations Hook
-	$conv = Purple::Conversations::get_handle();
-	Purple::Signal::connect($conv, "received-im-msg", $plugin,
-					\&conv_received_msg, "IM");
+    $conv = Purple::Conversations::get_handle();
+    Purple::Signal::connect($conv, "received-im-msg", $plugin,
+                            \&conv_received_msg, "IM");
 }
 
 sub plugin_unload
