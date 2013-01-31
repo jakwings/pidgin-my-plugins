@@ -1,7 +1,7 @@
 #!/usr/local/bin perl
 
 require v5.6.12;    # not sure...
-require Purple;
+require Purple;     # I'm using Pidgin 2.10.6 (libpurple 2.10.6)
 require Pidgin;     # TODO: preference panel
 
 use encoding "utf-8";
