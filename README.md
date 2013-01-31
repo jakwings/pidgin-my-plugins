@@ -6,11 +6,9 @@ Most of them are Perl-script plugins ;)
 
 * auto-reply.pl
 
-```
-Pidgin will reply to your buddies automatically when you are "away".
-The number of times is limited. And it has a delay between checking
-the received messages, so it won't reply to every comming messages.
-```
+    Pidgin will reply to your buddies automatically when you are "away".
+    The number of times is limited. And it has a delay between checking
+    the received messages, so it won't reply to every comming messages.
 
 # 我做的Pidgin插件
 
@@ -20,8 +18,6 @@ the received messages, so it won't reply to every comming messages.
 
 * auto-reply.pl
 
-```
-当你的Pidgin处于离开状态的时候，若有好友消息则自动发送回复，回复次数
-有一定的限制，并且检测接收的消息时有间隔，不会对短时间内接收到的所有
-信息进行回复。
-```
+    当你的Pidgin处于离开状态的时候，若有好友消息则自动发送回复，回复次数
+    有一定的限制，并且检测接收的消息时有间隔，不会对短时间内接收到的所有
+    信息进行回复。
