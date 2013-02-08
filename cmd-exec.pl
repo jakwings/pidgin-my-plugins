@@ -7,7 +7,7 @@ use encoding "utf-8";
 
 use constant {
     TRUE => 1,
-    FLASE => 0
+    FALSE => 0
 };
 
 
@@ -27,7 +27,7 @@ my %FONT = (
 our %PLUGIN_INFO = (
     perl_api_version => 2,
     name => "EXEC command",
-    version => "1.0.0",
+    version => "1.0.1",
     summary => "Run commands and get the output.",
     description => "/exec [-o] <command>",
     author => "Jak Wings <jakwings\@gmail.com>",
@@ -106,6 +106,7 @@ sub send_output
     my ($type, $conv, $output, $to_buddy) = @_;
 
     if ( Purple::Conversation::Type::IM == $type ) {
+        dbmsg($to_buddy);
         if ( $to_buddy ) {
             $conv->get_im_data()->send(format_output($output));
         } else {
