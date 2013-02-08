@@ -2,7 +2,7 @@
 
 require v5.6.12;    # not sure...
 require Purple;     # I'm using Pidgin 2.10.6 (libpurple 2.10.6)
-require Pidgin;     # TODO: preference panel
+#require Pidgin;     # TODO: preference panel
 
 use encoding "utf-8";
 
@@ -20,12 +20,6 @@ our %INFO = (
     reply_message => '<font color="#4b3dca" face="Ubuntu" size="2">and then?</font>'
 );
 
-sub reset_info
-{
-    %{$INFO{last_senders}} = {};
-    Purple::Debug::info($PLUGIN_INFO{name}, "RESET\n");
-}
-
 
 #####
 ### Plugin Initializations
@@ -33,7 +27,7 @@ sub reset_info
 our %PLUGIN_INFO = (
     perl_api_version => 2,
     name => "Auto-Reply Fun",
-    version => "1.0.0",
+    version => "1.1.0",
     summary => "Have fun!",
     description => "Auto-reply according to the received message.",
     author => "Jak Wings <jakwings\@gmail.com>",
@@ -49,22 +43,44 @@ sub plugin_init
 
 sub plugin_load
 {
-    my $plugin = shift;
+    dbmsg("loaded");
 
-    Purple::Debug::info($PLUGIN_INFO{name}, "loaded\n");
+    my $plugin = shift;
+    my $conv = Purple::Conversations::get_handle();
 
     ## Conversations Hook
-    $conv = Purple::Conversations::get_handle();
     Purple::Signal::connect($conv, "received-im-msg", $plugin,
                             \&conv_received_msg, "IM");
 }
 
 sub plugin_unload
 {
-    my $plugin = shift;
-
-    Purple::Debug::info($PLUGIN_INFO{name}, "unloaded\n");
+    dbmsg("unloaded");
 }
+
+
+#####
+### Basic Functions
+#
+sub reset_info
+{
+    %{$INFO{last_senders}} = {};
+    Purple::Debug::info($PLUGIN_INFO{name}, "RESET\n");
+}
+
+sub dbmsg
+{
+    my $msg = shift;
+    my $is_misc = shift;
+
+    chomp($msg);
+    if ( $is_misc ) {
+        Purple::Debug::misc($PLUGIN_INFO{name}, "$msg\n");
+    } else {
+        Purple::Debug::info($PLUGIN_INFO{name}, "$msg\n");
+    }
+}
+
 
 #####
 ### Conversations
@@ -73,7 +89,7 @@ sub conv_received_msg
 {
 	my ($account, $sender, $message, $conv, $flags, $data) = @_;
 
-	Purple::Debug::misc("REC[$data]", $account->get_username() . " <-- $sender, $message, $flags)\n");
+	dbmsg("REC[$data]: " . $account->get_username() . " <-- $sender, $message, $flags", 1);
 
     if ( $data eq "IM" and $conv) {
         my $im = $conv->get_im_data();
@@ -105,8 +121,7 @@ sub auto_reply
         \$INFO{last_senders}{$sender}{time},
         \$INFO{last_senders}{$sender}{is_new} );
 
-    Purple::Debug::misc($PLUGIN_INFO{name},
-                        "auto-replying...times: " . ${$count} . "\n");
+    dbmsg("auto-replying...times: $$count", 1);
 
     if ( MAX_REPLY_NUM > ${$count} ) {
         if ( ${$is_new} or time - ${$time} >= REPLY_DELAY_SECOND ) {
