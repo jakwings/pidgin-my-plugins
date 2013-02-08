@@ -19,7 +19,7 @@ our @NICK_NAMES = ("John", "J.M");
 our %PLUGIN_INFO = (
     perl_api_version => 2,
     name => "Chatroom At-Me Notifier",
-    version => "1.0.0",
+    version => "1.1.0",
     summary => "Notify if someone @ you!",
     description => "Notify and show what others said.",
     author => "Jak Wings <jakwings\@gmail.com>",
@@ -35,21 +35,36 @@ sub plugin_init
 
 sub plugin_load
 {
+    dbmsg("loaded");
+
+    my $conv = Purple::Conversations::get_handle();
     my $plugin = shift;
 
-    Purple::Debug::info($PLUGIN_INFO{name}, "loaded\n");
-
     ## Conversations Hook
-    $conv = Purple::Conversations::get_handle();
     Purple::Signal::connect($conv, "received-chat-msg", $plugin,
                             \&conv_received_msg, "CHAT");
 }
 
 sub plugin_unload
 {
-    my $plugin = shift;
+    dbmsg("unloaded");
+}
 
-    Purple::Debug::info($PLUGIN_INFO{name}, "unloaded\n");
+
+#####
+### Basic Functions
+#
+sub dbmsg
+{
+    my $msg = shift;
+    my $is_misc = shift;
+
+    chomp($msg);
+    if ( $is_misc ) {
+        Purple::Debug::misc($PLUGIN_INFO{name}, "$msg\n");
+    } else {
+        Purple::Debug::info($PLUGIN_INFO{name}, "$msg\n");
+    }
 }
 
 
@@ -60,7 +75,7 @@ sub conv_received_msg
 {
 	my ($account, $sender, $message, $conv, $flags, $data) = @_;
 
-	Purple::Debug::misc("REC[$data]", $account->get_username() . " <-- $sender, $message, $flags)\n");
+	dbmsg("REC[$data]: " . $account->get_username() . " <-- $sender, $message, $flags", 1);
 
     if ( $data eq "CHAT" ) {
         foreach $name (@NICK_NAMES) {
