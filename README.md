@@ -15,8 +15,7 @@ Most of them are Perl-script plugins ;)
 * cmd-exec.pl
 
     Add command "exec" to IM/CHAT conversations. Get the output of your shell command and show/send it.
-
-    Usage: /exec [-o] <command>
+    Usage: /exec [-o] \<command>
 
 --------------------
 
@@ -37,5 +36,4 @@ Most of them are Perl-script plugins ;)
 * cmd-exec.pl
 
     为聊天窗口添加"exec"命令，可将指定命令的运行结果显示在聊天框中，或发送出去。
-
-    使用方法：/exec [-o] <命令>
+    使用方法：/exec [-o] \<命令>
